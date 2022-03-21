@@ -6,6 +6,85 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.black,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("assets/images/MeetU_Logo.png")
+                                )
+                            ),
+                          ),
+                        )
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Meet U",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          )
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 4,
+              child: Container(
+                color: Colors.red,
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                color: Colors.orange,
+              ),
+            )
+          ],
+        ),
+      )
+    );
+  }
+}
+
+
+
+/*
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
@@ -122,4 +201,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
+}*/
