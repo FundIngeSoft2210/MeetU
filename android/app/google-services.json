@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "417845918635",
+    "project_id": "meetu-e2155",
+    "storage_bucket": "meetu-e2155.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417845918635:android:953533d0ffcea29f11b0ee",
+        "android_client_info": {
+          "package_name": "com.example.meet_u"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "417845918635-kd0d0rvdm47adtg8410qln6bseps1752.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkjbox1S5xyuJjsTVvLDSair7yHWguUbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "417845918635-kd0d0rvdm47adtg8410qln6bseps1752.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
