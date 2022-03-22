@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_u/profileScreen.dart';
 
@@ -12,72 +13,219 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+
     return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.black,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      Expanded(
+        child: Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Colors.black,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    Expanded(
                         flex: 1,
                         child: Padding(
                           padding: EdgeInsets.all(20),
                           child: Container(
                             decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage("assets/images/MeetU_Logo.png")
-                                )
-                            ),
+                                    image: AssetImage(
+                                        "assets/images/MeetU_Logo.png"))),
                           ),
-                        )
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Container(
+                        )),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
                           child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Meet U",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          )
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "MeetÜ",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold),
                         ),
-                      )
-                    ],
-                  ),
+                      )),
+                    )
+                  ],
                 ),
               ),
             ),
-            Expanded(
-              flex: 4,
-              child: Container(
-                color: Colors.red,
+          ),
+          Expanded(
+            flex: 4,
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 1,
+                            )),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Ingrese sus credenciales:",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 0.5,
+                            )),
+                        Expanded(
+                          flex: 2,
+                          child: TextField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              hintText: "Correo Electrónico",
+                              prefixIcon: Icon(Icons.mail, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: TextField(
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: "Contraseña",
+                              prefixIcon: Icon(Icons.lock, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: Align(
+                                alignment: Alignment.topRight,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: "¿Olviste tu contraseña?",
+                                          style: TextStyle(
+                                              color: Colors.blue, fontSize: 16),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProfileScreen()));
+                                            }),
+                                    ],
+                                  ),
+                                ))),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 0.5,
+                            )),
+                        Expanded(
+                          flex: 2,
+                          child: InkWell(
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.orange,
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("Iniciar Sesión",
+                                      style: TextStyle(fontSize: 20)),
+                                )),
+                            onTap: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfileScreen()));
+                            },
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 1,
+                            )),
+                      ],
+                    )),
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Container(
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
                 color: Colors.orange,
-              ),
-            )
-          ],
-        ),
-      )
-    );
+                child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                width: 1.5,
+                              )),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              "¿No tienes cuenta?",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Expanded(flex: 1,
+                          child: Container(height: 0.5,)),
+                          Expanded(
+                            flex: 2,
+                            child: InkWell(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text("Crear cuenta",
+                                        style: TextStyle(fontSize: 20)),
+                                  )),
+                              onTap: () {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen()));
+                              },
+                            ),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                width: 1.5,
+                              )),
+                        ],
+                      ),
+                    ))),
+          )
+        ],
+      ),
+    ));
   }
 }
-
-
 
 /*
 
