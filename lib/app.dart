@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'loginScreen.dart';
+import 'ui/pages/LoginScreen/loginScreen.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
