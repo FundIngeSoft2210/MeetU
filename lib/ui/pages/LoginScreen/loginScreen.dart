@@ -11,6 +11,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  static Future<User?> loginUsingEmailPassword(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        print("No existe un usuario con ese email");
+      }
+    }
+
+    return user;
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _emailController = TextEditingController();
@@ -18,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return SafeArea(
         child: Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Expanded(
@@ -31,9 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage(
                                         "assets/images/MeetU_Logo.png"))),
@@ -42,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       flex: 2,
                       child: Container(
-                          child: Align(
+                          child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "MeetÜ",
@@ -63,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Column(
@@ -73,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Container(
                               height: 1,
                             )),
-                        Expanded(
+                        const Expanded(
                           flex: 1,
                           child: Align(
                             alignment: Alignment.bottomLeft,
@@ -118,15 +140,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     children: [
                                       TextSpan(
                                           text: "¿Olviste tu contraseña?",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.blue, fontSize: 16),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ProfileScreen()));
+                                              Navigator.of(context).pushReplacement(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ProfileScreen()));
                                             }),
                                     ],
                                   ),
@@ -143,17 +164,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: BoxDecoration(
                                     color: Colors.orange,
                                     border: Border.all(color: Colors.black),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: Align(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: const Align(
                                   alignment: Alignment.center,
                                   child: Text("Iniciar Sesión",
                                       style: TextStyle(fontSize: 20)),
                                 )),
-                            onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => ProfileScreen()));
+                            onTap: () async {
+                              User? user = await loginUsingEmailPassword(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  context: context);
+                              if (user != null) {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen()));
+                              }
                             },
                           ),
                         ),
@@ -172,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
                 color: Colors.orange,
                 child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Align(
                       alignment: Alignment.center,
                       child: Column(
@@ -182,15 +209,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Container(
                                 width: 1.5,
                               )),
-                          Expanded(
+                          const Expanded(
                             flex: 1,
                             child: Text(
                               "¿No tienes cuenta?",
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
-                          Expanded(flex: 1,
-                          child: Container(height: 0.5,)),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                height: 0.5,
+                              )),
                           Expanded(
                             flex: 2,
                             child: InkWell(
@@ -198,9 +228,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(color: Colors.black),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(10))),
-                                  child: Align(
+                                  child: const Align(
                                     alignment: Alignment.center,
                                     child: Text("Crear cuenta",
                                         style: TextStyle(fontSize: 20)),
@@ -208,7 +238,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTap: () {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => ProfileScreen()));
+                                        builder: (context) =>
+                                            const ProfileScreen()));
                               },
                             ),
                           ),
