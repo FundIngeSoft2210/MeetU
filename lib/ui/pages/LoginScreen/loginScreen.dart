@@ -4,15 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:meet_u/ui/pages/LoginScreen/passwordScreen.dart';
 import 'package:meet_u/ui/pages/LoginScreen/signUpScreen.dart';
 import 'package:meet_u/ui/pages/LoginScreen/verifyEmailScreen.dart';
-import 'package:meet_u/ui/pages/MainMenu/mainMenuScreen.dart';
-import 'package:meet_u/ui/pages/ProfileScreen/profileScreen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
-
   const LoginScreen({Key? key}) : super(key: key);
-
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -33,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        print("No existe un usuario con ese email");
+        Utils.showSnackBar("No existe un usuario con ese email");
       }
     }
 
@@ -44,13 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
-
-    void dispose() {
-      _emailController.dispose();
-      _passwordController.dispose();
-
-      super.dispose();
-    }
 
     return SafeArea(
         child: Scaffold(
@@ -76,10 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         "assets/images/MeetU_Logo.png"))),
                           ),
                         )),
-                    Expanded(
+                    const Expanded(
                       flex: 2,
-                      child: Container(
-                          child: const Align(
+                      child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "MeetÜ",
@@ -88,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 40,
                               fontWeight: FontWeight.bold),
                         ),
-                      )),
+                      ),
                     )
                   ],
                 ),
@@ -134,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               prefixIcon: Icon(Icons.mail, color: Colors.black),
                             ),
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (email) => (email != null &&
-                                !EmailValidator.validate(email)) ||
-                                (email != null &&
-                                    !email.endsWith('javeriana.edu.co'))
+                                        !EmailValidator.validate(email)) ||
+                                    (email != null &&
+                                        !email.endsWith('javeriana.edu.co'))
                                 ? 'Enter a valid email'
                                 : null,
                           ),
@@ -202,9 +190,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (user != null) {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => VerifyEmailScreen()));
+                                        builder: (context) =>
+                                            const VerifyEmailScreen()));
                               } else {
-                                Utils.showSnackBar("No existe esta cuenta o los datos ingresados son incorrectos.");
+                                Utils.showSnackBar(
+                                    "No existe esta cuenta o los datos ingresados son incorrectos.");
                               }
                             },
                           ),
@@ -249,21 +239,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(
                             flex: 2,
                             child: InkWell(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.black),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: const Align(
-                                    alignment: Alignment.center,
-                                    child: Text("Crear cuenta",
-                                        style: TextStyle(fontSize: 20)),
-                                  )),
-                              onTap: () async{ Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpScreen()));}
-                            ),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: const Align(
+                                      alignment: Alignment.center,
+                                      child: Text("Crear cuenta",
+                                          style: TextStyle(fontSize: 20)),
+                                    )),
+                                onTap: () async {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignUpScreen()));
+                                }),
                           ),
                           Expanded(
                               flex: 1,

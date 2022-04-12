@@ -6,25 +6,16 @@ import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
 class PasswordScreen extends StatefulWidget {
-
   const PasswordScreen({Key? key}) : super(key: key);
-
 
   @override
   _PasswordScreenState createState() => _PasswordScreenState();
 }
 
 class _PasswordScreenState extends State<PasswordScreen> {
-
   @override
   Widget build(BuildContext context) {
     TextEditingController _emailController = TextEditingController();
-
-    void dispose() {
-      _emailController.dispose();
-
-      super.dispose();
-    }
 
     return SafeArea(
         child: Scaffold(
@@ -50,10 +41,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
                                         "assets/images/MeetU_Logo.png"))),
                           ),
                         )),
-                    Expanded(
+                    const Expanded(
                       flex: 2,
-                      child: Container(
-                          child: const Align(
+                      child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "MeetÜ",
@@ -62,7 +52,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               fontSize: 40,
                               fontWeight: FontWeight.bold),
                         ),
-                      )),
+                      ),
                     )
                   ],
                 ),
@@ -108,16 +98,15 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               prefixIcon: Icon(Icons.mail, color: Colors.black),
                             ),
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (email) => (email != null &&
-                                !EmailValidator.validate(email)) ||
-                                (email != null &&
-                                    !email.endsWith('javeriana.edu.co'))
+                                        !EmailValidator.validate(email)) ||
+                                    (email != null &&
+                                        !email.endsWith('javeriana.edu.co'))
                                 ? 'Enter a valid email'
                                 : null,
                           ),
                         ),
-
                         Expanded(
                           flex: 1,
                           child: InkWell(
@@ -125,7 +114,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
                                 decoration: BoxDecoration(
                                     color: Colors.orange,
                                     border: Border.all(color: Colors.black),
-
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10))),
                                 child: const Align(
@@ -137,11 +125,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               try {
                                 await FirebaseAuth.instance
                                     .sendPasswordResetEmail(
-                                    email: _emailController.text.trim());
+                                        email: _emailController.text.trim());
                                 Utils.showSnackBar(
                                     'Se envió un correo a su email.');
-                              } on FirebaseAuthException catch (e){
-                                print (e);
+                              } on FirebaseAuthException catch (e) {
                                 Utils.showSnackBar(e.message);
                               }
                             },
@@ -162,13 +149,14 @@ class _PasswordScreenState extends State<PasswordScreen> {
                                       TextSpan(
                                           text: "Cancelar",
                                           style: const TextStyle(
-                                              color: Colors.black, fontSize: 16),
+                                              color: Colors.black,
+                                              fontSize: 16),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
                                               Navigator.of(context).pushReplacement(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                      const LoginScreen()));
+                                                          const LoginScreen()));
                                             }),
                                     ],
                                   ),

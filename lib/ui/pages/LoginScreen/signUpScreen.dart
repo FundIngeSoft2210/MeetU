@@ -5,7 +5,6 @@ import 'package:meet_u/ui/pages/LoginScreen/verifyEmailScreen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -28,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        print("No existe un usuario con ese email");
+        Utils.showSnackBar("No existe un usuario con ese email");
       }
     }
 
@@ -40,13 +39,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
     TextEditingController _passwordController2 = TextEditingController();
-
-    void dispose() {
-      _emailController.dispose();
-      _passwordController.dispose();
-
-      super.dispose();
-    }
 
     return SafeArea(
         child: Scaffold(
@@ -72,10 +64,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         "assets/images/MeetU_Logo.png"))),
                           ),
                         )),
-                    Expanded(
+                    const Expanded(
                       flex: 2,
-                      child: Container(
-                          child: const Align(
+                      child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "MeetÜ",
@@ -84,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               fontSize: 40,
                               fontWeight: FontWeight.bold),
                         ),
-                      )),
+                      ),
                     )
                   ],
                 ),
@@ -166,9 +157,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               prefixIcon: Icon(Icons.lock, color: Colors.black),
                             ),
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
-                            validator: (value) =>
-                            value != null && value != _passwordController.text.trim()
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) => value != null &&
+                                    value != _passwordController.text.trim()
                                 ? 'La contraseña no es la misma'
                                 : null,
                           ),
@@ -197,9 +188,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 await FirebaseAuth.instance
                                     .createUserWithEmailAndPassword(
                                         email: _emailController.text.trim(),
-                                        password: _passwordController.text.trim());
+                                        password:
+                                            _passwordController.text.trim());
                               } on FirebaseAuthException catch (e) {
-                                print(e);
                                 Utils.showSnackBar(e.message);
                               }
                               User? user = await loginUsingEmailPassword(
@@ -209,7 +200,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (user != null) {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => VerifyEmailScreen()));
+                                        builder: (context) =>
+                                            const VerifyEmailScreen()));
                               }
                             },
                           ),
@@ -268,7 +260,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onTap: () async {
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
+                                          builder: (context) =>
+                                              const LoginScreen()));
                                 }),
                           ),
                           Expanded(
