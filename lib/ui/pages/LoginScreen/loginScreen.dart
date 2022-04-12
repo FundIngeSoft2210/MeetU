@@ -7,6 +7,8 @@ import 'package:meet_u/ui/pages/LoginScreen/verifyEmailScreen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
+import '../../../external_services/database.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -15,26 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  static Future<User?> loginUsingEmailPassword(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
-    try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      user = userCredential.user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        Utils.showSnackBar("No existe un usuario con ese email");
-      }
-    }
 
-    return user;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       style: TextStyle(fontSize: 20)),
                                 )),
                             onTap: () async {
-                              User? user = await loginUsingEmailPassword(
+                              User? user = await Database.loginUsingEmailPassword(
                                   email: _emailController.text,
                                   password: _passwordController.text,
                                   context: context);
