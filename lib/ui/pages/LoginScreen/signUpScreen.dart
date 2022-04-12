@@ -1,24 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_u/ui/pages/LoginScreen/passwordScreen.dart';
-import 'package:meet_u/ui/pages/LoginScreen/signUpScreen.dart';
+import 'package:meet_u/ui/pages/LoginScreen/loginScreen.dart';
 import 'package:meet_u/ui/pages/LoginScreen/verifyEmailScreen.dart';
-import 'package:meet_u/ui/pages/MainMenu/mainMenuScreen.dart';
-import 'package:meet_u/ui/pages/ProfileScreen/profileScreen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
-class LoginScreen extends StatefulWidget {
 
-  const LoginScreen({Key? key}) : super(key: key);
-
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   static Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
@@ -44,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
+    TextEditingController _passwordController2 = TextEditingController();
 
     void dispose() {
       _emailController.dispose();
@@ -134,47 +130,49 @@ class _LoginScreenState extends State<LoginScreen> {
                               prefixIcon: Icon(Icons.mail, color: Colors.black),
                             ),
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (email) => (email != null &&
-                                !EmailValidator.validate(email)) ||
-                                (email != null &&
-                                    !email.endsWith('javeriana.edu.co'))
-                                ? 'Enter a valid email'
+                                        !EmailValidator.validate(email)) ||
+                                    (email != null &&
+                                        !email.endsWith('javeriana.edu.co'))
+                                ? 'Ingrese un email válido'
                                 : null,
                           ),
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextField(
+                          child: TextFormField(
                             controller: _passwordController,
                             obscureText: true,
                             decoration: const InputDecoration(
                               hintText: "Contraseña",
                               prefixIcon: Icon(Icons.lock, color: Colors.black),
                             ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) =>
+                                value != null && value.length < 6
+                                    ? 'Ingrese mínimo 6 caracteres'
+                                    : null,
                           ),
                         ),
                         Expanded(
-                            flex: 1,
-                            child: Align(
-                                alignment: Alignment.topRight,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: "¿Olviste tu contraseña?",
-                                          style: const TextStyle(
-                                              color: Colors.blue, fontSize: 16),
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () {
-                                              Navigator.of(context).pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const PasswordScreen()));
-                                            }),
-                                    ],
-                                  ),
-                                ))),
+                          flex: 2,
+                          child: TextFormField(
+                            controller: _passwordController2,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: "Confirmar Contraseña",
+                              prefixIcon: Icon(Icons.lock, color: Colors.black),
+                            ),
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
+                            validator: (value) =>
+                            value != null && value != _passwordController.text.trim()
+                                ? 'La contraseña no es la misma'
+                                : null,
+                          ),
+                        ),
                         Expanded(
                             flex: 1,
                             child: Container(
@@ -191,10 +189,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Radius.circular(10))),
                                 child: const Align(
                                   alignment: Alignment.center,
-                                  child: Text("Iniciar Sesión",
+                                  child: Text("Crear Cuenta",
                                       style: TextStyle(fontSize: 20)),
                                 )),
                             onTap: () async {
+                              try {
+                                await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: _emailController.text.trim(),
+                                        password: _passwordController.text.trim());
+                              } on FirebaseAuthException catch (e) {
+                                print(e);
+                                Utils.showSnackBar(e.message);
+                              }
                               User? user = await loginUsingEmailPassword(
                                   email: _emailController.text,
                                   password: _passwordController.text,
@@ -203,8 +210,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (context) => VerifyEmailScreen()));
-                              } else {
-                                Utils.showSnackBar("No existe esta cuenta o los datos ingresados son incorrectos.");
                               }
                             },
                           ),
@@ -237,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Expanded(
                             flex: 1,
                             child: Text(
-                              "¿No tienes cuenta?",
+                              "¿Ya tienes una cuenta?",
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
@@ -249,21 +254,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(
                             flex: 2,
                             child: InkWell(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.black),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: const Align(
-                                    alignment: Alignment.center,
-                                    child: Text("Crear cuenta",
-                                        style: TextStyle(fontSize: 20)),
-                                  )),
-                              onTap: () async{ Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpScreen()));}
-                            ),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: const Align(
+                                      alignment: Alignment.center,
+                                      child: Text("Iniciar Sesión",
+                                          style: TextStyle(fontSize: 20)),
+                                    )),
+                                onTap: () async {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()));
+                                }),
                           ),
                           Expanded(
                               flex: 1,
