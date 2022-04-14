@@ -1,18 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_u/ui/pages/LoginScreen/loginScreen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
-class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({Key? key}) : super(key: key);
+import '../LoginScreen/loginScreen.dart';
+
+class RecoverPasswordScreen extends StatefulWidget {
+  const RecoverPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _PasswordScreenState createState() => _PasswordScreenState();
+  _RecoverPasswordScreenState createState() => _RecoverPasswordScreenState();
 }
 
-class _PasswordScreenState extends State<PasswordScreen> {
+class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _emailController = TextEditingController();

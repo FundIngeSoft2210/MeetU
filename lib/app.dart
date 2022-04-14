@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_u/ui/pages/LoginScreen/loginScreen.dart';
-import 'package:meet_u/ui/pages/LoginScreen/verifyEmailScreen.dart';
+import 'package:meet_u/ui/screens/splash_screen/SplashController.dart';
 import 'package:meet_u/utils/utils.dart';
 
 class App extends StatelessWidget {
@@ -12,25 +10,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       scaffoldMessengerKey: Utils.messengerKey,
       debugShowCheckedModeBanner: false,
-      home: const MainPage(),
+      home: const SplashController(),
     );
   }
 }
 
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data.toString().isNotEmpty) {
-              return const VerifyEmailScreen();
-            } else {
-              return const LoginScreen();
-            }
-          }));
-}

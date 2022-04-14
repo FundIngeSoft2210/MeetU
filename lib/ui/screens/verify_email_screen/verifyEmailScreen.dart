@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_u/ui/pages/LoginScreen/loginScreen.dart';
-import 'package:meet_u/ui/pages/MainMenu/mainMenuScreen.dart';
+import 'package:meet_u/external_services/auth.dart';
+import 'package:meet_u/ui/screens/home_screen/home_screen.dart';
 import 'package:meet_u/utils/utils.dart';
+import '../LoginScreen/loginScreen.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
@@ -17,20 +17,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   bool isEmailVerified = false;
   bool canResendEmail = false;
   Timer? timer;
+  final  AuthService _authService=AuthService();
+
 
   @override
   void initState() {
-    super.initState();
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-
+    isEmailVerified = _authService.checkEmailIsVerified();
     if (!isEmailVerified) {
-      sendVerificationEmail();
-
+      _authService.sendVerificationEmail();
       timer = Timer.periodic(
         const Duration(seconds: 3),
         (_) => checkEmailVerified(),
       );
     }
+    super.initState();
   }
 
   @override
@@ -39,32 +39,28 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     super.dispose();
   }
 
-  Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
 
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
-
+  checkEmailVerified() async {
+    await _authService.reload();
+    setState(() => isEmailVerified = _authService.checkEmailIsVerified());
     if (isEmailVerified) timer?.cancel();
   }
 
-  Future sendVerificationEmail() async {
+
+   sendVerificationEmail() async {
     try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
+      await _authService.sendVerificationEmail();
       setState(() => canResendEmail = false);
       await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
-      Utils.showSnackBar(
-          "Debe esperar unos segundos antes de volver a enviar el correo de verificación");
+      Utils.showSnackBar("Debe esperar unos segundos antes de volver a enviar el correo de verificación");
     }
   }
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? const MainMenuScreen()
+      ? const HomeScreen()
       : SafeArea(
           child: Scaffold(
               resizeToAvoidBottomInset: false,
@@ -181,14 +177,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                                   recognizer:
                                                       TapGestureRecognizer()
                                                         ..onTap = () {
-                                                          FirebaseAuth.instance
-                                                              .signOut();
-                                                          Navigator.of(context)
-                                                              .pushReplacement(
-                                                                  MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              const LoginScreen()));
+                                                        _authService.signOut();
+                                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context) => const LoginScreen()));
                                                         }),
                                             ],
                                           ),

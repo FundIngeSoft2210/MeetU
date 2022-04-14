@@ -1,27 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_u/ui/pages/LoginScreen/loginScreen.dart';
-import 'package:meet_u/ui/pages/LoginScreen/verifyEmailScreen.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:meet_u/ui/screens/recover_password_screen/passwordScreen.dart';
+import 'package:meet_u/ui/screens/sign_up_screen/signUpScreen.dart';
+import 'package:meet_u/ui/screens/verify_email_screen/verifyEmailScreen.dart';
 import 'package:meet_u/utils/utils.dart';
-
 import '../../../external_services/database.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
-    TextEditingController _passwordController2 = TextEditingController();
-
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -108,44 +108,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         !EmailValidator.validate(email)) ||
                                     (email != null &&
                                         !email.endsWith('javeriana.edu.co'))
-                                ? 'Ingrese un email válido'
+                                ? 'Enter a valid email'
                                 : null,
                           ),
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextFormField(
+                          child: TextField(
                             controller: _passwordController,
                             obscureText: true,
                             decoration: const InputDecoration(
                               hintText: "Contraseña",
                               prefixIcon: Icon(Icons.lock, color: Colors.black),
                             ),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (value) =>
-                                value != null && value.length < 6
-                                    ? 'Ingrese mínimo 6 caracteres'
-                                    : null,
                           ),
                         ),
                         Expanded(
-                          flex: 2,
-                          child: TextFormField(
-                            controller: _passwordController2,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              hintText: "Confirmar Contraseña",
-                              prefixIcon: Icon(Icons.lock, color: Colors.black),
-                            ),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (value) => value != null &&
-                                    value != _passwordController.text.trim()
-                                ? 'La contraseña no es la misma'
-                                : null,
-                          ),
-                        ),
+                            flex: 1,
+                            child: Align(
+                                alignment: Alignment.topRight,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: "¿Olviste tu contraseña?",
+                                          style: const TextStyle(
+                                              color: Colors.blue, fontSize: 16),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.of(context).pushReplacement(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const RecoverPasswordScreen()));
+                                            }),
+                                    ],
+                                  ),
+                                ))),
                         Expanded(
                             flex: 1,
                             child: Container(
@@ -162,19 +160,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         Radius.circular(10))),
                                 child: const Align(
                                   alignment: Alignment.center,
-                                  child: Text("Crear Cuenta",
+                                  child: Text("Iniciar Sesión",
                                       style: TextStyle(fontSize: 20)),
                                 )),
                             onTap: () async {
-                              try {
-                                await FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: _emailController.text.trim(),
-                                        password:
-                                            _passwordController.text.trim());
-                              } on FirebaseAuthException catch (e) {
-                                Utils.showSnackBar(e.message);
-                              }
                               User? user = await Database.loginUsingEmailPassword(
                                   email: _emailController.text,
                                   password: _passwordController.text,
@@ -184,6 +173,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const VerifyEmailScreen()));
+                              } else {
+                                Utils.showSnackBar(
+                                    "No existe esta cuenta o los datos ingresados son incorrectos.");
                               }
                             },
                           ),
@@ -216,7 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const Expanded(
                             flex: 1,
                             child: Text(
-                              "¿Ya tienes una cuenta?",
+                              "¿No tienes cuenta?",
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
@@ -236,14 +228,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             Radius.circular(10))),
                                     child: const Align(
                                       alignment: Alignment.center,
-                                      child: Text("Iniciar Sesión",
+                                      child: Text("Crear cuenta",
                                           style: TextStyle(fontSize: 20)),
                                     )),
                                 onTap: () async {
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const LoginScreen()));
+                                              const SignUpScreen()));
                                 }),
                           ),
                           Expanded(
