@@ -1,8 +1,4 @@
 class EventController{
 
-  adfa(){
-
-  }
-
 
 }
