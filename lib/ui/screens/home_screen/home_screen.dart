@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meet_u/ui/properties/own_icons_icons.dart';
+import 'package:meet_u/ui/screens/GroupsScreen/groups_screen.dart';
 import 'package:meet_u/ui/screens/home_screen/Widgets/home_widget.dart';
 
 
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         }, title: "Amigos", icon: OwnIcons.contacts),
                         HomeWidget(onTap: (){
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const GroupScreen()));
                         }, title: "Grupos", icon: OwnIcons.users),
                         HomeWidget(onTap: (){
 
