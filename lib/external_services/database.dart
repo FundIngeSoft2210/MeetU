@@ -1,33 +1,30 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import '../utils/utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meet_u/model/entities/student.dart';
 
 class Database{
 
 
+  final users = FirebaseFirestore.instance.collection('users');
 
-  static Future<User?> loginUsingEmailPassword(
-      {required String email,
-        required String password,
-        required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
-    try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      user = userCredential.user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        Utils.showSnackBar("No existe un usuario con ese email");
-      }
-    }
 
-    return user;
+  //READ
+  Stream<DocumentSnapshot<Map<String, dynamic>>> currentUser(String userId){
+    return users.doc(userId).snapshots();
   }
 
-  
+
+  //CREATE
+  Future<bool> addStudent(Student student) async{
+    try {
+      await users.doc(student.id).set(student.toJson());
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
+
 
 
 }
+
+
