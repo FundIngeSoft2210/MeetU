@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meet_u/model/entities/career.dart';
+import 'package:meet_u/model/entities/chat/group_chat.dart';
+import 'package:meet_u/model/entities/chat/message.dart';
 import 'package:meet_u/model/entities/gender.dart';
 import 'package:meet_u/model/entities/post.dart';
 import 'package:meet_u/model/entities/studentxgroup.dart';
@@ -73,6 +75,14 @@ class Student extends MeetU_User{
     _database.addStudent(this);
   }
 
+  
+  sendGroupMessage(String message,GroupChat groupChat)async{
+    Database _database= Database();
+    Message newMessage=Message(id!, DateTime.now(), message);
+    groupChat.messages ??= [];
+    groupChat.messages!.add(newMessage);
+    _database.addGroupMessage(groupChat);
+  }
 
 
 }

@@ -8,10 +8,10 @@ class Message{
   String author_id;
   @JsonKey(name: 'date')
   DateTime date;
-  @JsonKey(name: 'id')
-  late String id;
+  @JsonKey(name: 'message')
+  late String message;
 
-  Message(this.author_id, this.date);
+  Message(this.author_id, this.date,this.message);
 
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
   Map<String, dynamic> toJson() => _$MessageToJson(this);

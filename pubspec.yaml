@@ -48,6 +48,9 @@ dependencies:
   #JSON HANDLER
   json_annotation: 4.4.0
 
+  #IMAGE HANDLER
+  cached_network_image: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:

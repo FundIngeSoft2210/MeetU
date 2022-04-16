@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:meet_u/event_controller/event_controller.dart';
-import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/properties/own_icons_icons.dart';
-import 'package:meet_u/ui/screens/student/chats_screen/chats_screen.dart';
-import 'Widgets/home_widget.dart';
+import 'package:meet_u/ui/screens/admin/add_group_screen/add_group_screen.dart';
+import '../../../../model/entities/admin.dart';
+import '../../student/home_screen/Widgets/home_widget.dart';
 
 
-class HomeScreen extends StatefulWidget {
-  Student student;
-  HomeScreen({Key? key, required this.student}) : super(key: key);
+
+class AdminHomeScreen extends StatefulWidget {
+  Admin admin;
+  AdminHomeScreen({Key? key, required this.admin}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   final EventController _eventController=EventController();
 
@@ -71,47 +72,33 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 flex: 6,
                 child: Container(
-                  color: Colors.white,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: GridView(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    color: Colors.white,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: GridView(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,childAspectRatio: 1.5,),
-                      children: [
-                        HomeWidget(onTap: (){
 
-                        }, title: "Perfil", icon: OwnIcons.child,),
+                        children: [
 
-                        HomeWidget(onTap: (){
+                          HomeWidget(onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  AddGroupScreen(admin: widget.admin,)));
+                          }, title: "Agregar grupo", icon: Icons.add),
 
-                        }, title: "Amigos", icon: OwnIcons.contacts),
+                          HomeWidget(onTap: (){
 
-                        HomeWidget(onTap: (){
+                          }, title: "Eliminar grupo", icon: Icons.remove),
 
-                        }, title: "Grupos", icon: OwnIcons.users),
+                          HomeWidget(onTap: (){
+                          }, title: "Ver mensajes soporte", icon: OwnIcons.help),
 
-                        HomeWidget(onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatsScreen(student: widget.student)));
-                        }, title: "Chats", icon: OwnIcons.chat_empty),
+                          HomeWidget(onTap: (){
+                            _eventController.signOut();
+                          }, title: "Cerrar sesión", icon: OwnIcons.cancel),
 
-                        HomeWidget(onTap: (){
-
-                        }, title: "Calendario", icon: OwnIcons.calendar),
-
-                        HomeWidget(onTap: (){
-                          _eventController.signOut();
-                        }, title: "Cerrar sesión", icon: OwnIcons.cancel),
-
-                        HomeWidget(onTap: (){
-
-                        }, title: "Ayuda", icon: OwnIcons.help),
-
-                        HomeWidget(onTap: (){
-
-                        }, title: "Configuración", icon: OwnIcons.cog_alt),
-                      ],
-                    ),
-                  )
+                        ],
+                      ),
+                    )
                 ),
               ),
               Expanded(

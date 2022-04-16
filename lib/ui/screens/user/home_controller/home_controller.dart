@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meet_u/event_controller/event_controller.dart';
+import 'package:meet_u/model/entities/admin.dart';
 import 'package:meet_u/model/entities/student.dart';
+import 'package:meet_u/ui/screens/admin/admin_home_screen/admin_home_screen.dart';
 import 'package:meet_u/ui/screens/student/home_screen/home_screen.dart';
 
 
@@ -32,7 +34,7 @@ class _HomeControllerState extends State<HomeController> {
                 }
                 else{
                   if(snapshot.data!["isAdmin"]){
-                    return Container(color: Colors.red,);
+                    return AdminHomeScreen(admin: Admin.fromJson(snapshot.data!.data()));
                   }
                   return HomeScreen(student: Student.fromJson(snapshot.data!.data()));
                 }
