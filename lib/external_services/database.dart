@@ -3,6 +3,7 @@ import 'package:meet_u/model/entities/chat/group_chat.dart';
 import 'package:meet_u/model/entities/chat/message.dart';
 import 'package:meet_u/model/entities/chat_type.dart';
 import 'package:meet_u/model/entities/group.dart';
+import 'package:meet_u/model/entities/post.dart';
 import 'package:meet_u/model/entities/student.dart';
 
 class Database{
@@ -12,6 +13,7 @@ class Database{
   final groups = FirebaseFirestore.instance.collection('groups');
   final chats = FirebaseFirestore.instance.collection('chats');
   final studentxgroup = FirebaseFirestore.instance.collection('studentxgroup');
+  final posts = FirebaseFirestore.instance.collection('posts');
 
 
   //READ
@@ -73,6 +75,17 @@ class Database{
   Future<bool> addGroupMessage(GroupChat groupChat) async{
     try {
       await chats.doc(groupChat.id).update(groupChat.toJson());
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
+
+  Future<bool> addPost(Post post) async{
+    try {
+      DocumentReference reference= posts.doc();
+      post.post_id=reference.id;
+      await posts.doc(post.post_id).update(post.toJson());
       return true;
     } catch (e) {
       return Future.error(e); // return error
