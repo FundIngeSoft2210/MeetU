@@ -22,7 +22,6 @@ class AuthService{
     return await _auth.createUserWithEmailAndPassword(email: email, password: password);
   }
 
-
   signOut(){_auth.signOut();}
 
 }

@@ -92,5 +92,16 @@ class Student extends MeetU_User{
     await _database.addPost(post);
   }
 
+  joinGroup(String groupId)async{
+    Database _database= Database();
+    StudentxGroup studentxGroup=StudentxGroup(id!, groupId);
+    await _database.addStudentxGroup(studentxGroup);
+  }
+
+  addEvent(String groupid, String description, String place, DateTime date)async{
+    Database _database= Database();
+    Event event= Event(id!, groupid, null, date, description, place);
+    await _database.addEvent(event);
+  }
 
 }

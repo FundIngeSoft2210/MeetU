@@ -24,6 +24,10 @@
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
+/// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
+///         Author:    Dave Gandy
+///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
+///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -41,4 +45,7 @@ class OwnIcons {
   static const IconData cog_alt = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chat_empty = IconData(0xf0e6, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData help = IconData(0xf128, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData angry = IconData(0xf556, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData grin_hearts = IconData(0xf584, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData surprise = IconData(0xf5c2, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

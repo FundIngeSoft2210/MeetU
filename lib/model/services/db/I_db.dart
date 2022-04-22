@@ -14,4 +14,14 @@ abstract class I_DBProvider{
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getGroupChat(String groupId);
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllGroups();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getGroupStream(String groupId);
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupPosts(String groupId);
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupEvents(String groupId);
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId);
+
 }

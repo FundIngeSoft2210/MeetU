@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meet_u/model/entities/chat/group_chat.dart';
-import 'package:meet_u/model/entities/chat/message.dart';
 import 'package:meet_u/model/entities/chat_type.dart';
+import 'package:meet_u/model/entities/event.dart';
 import 'package:meet_u/model/entities/group.dart';
 import 'package:meet_u/model/entities/post.dart';
 import 'package:meet_u/model/entities/student.dart';
+import 'package:meet_u/model/entities/studentxgroup.dart';
 
 class Database{
 
@@ -14,6 +15,7 @@ class Database{
   final chats = FirebaseFirestore.instance.collection('chats');
   final studentxgroup = FirebaseFirestore.instance.collection('studentxgroup');
   final posts = FirebaseFirestore.instance.collection('posts');
+  final events = FirebaseFirestore.instance.collection('events');
 
 
   //READ
@@ -21,9 +23,28 @@ class Database{
     return users.doc(userId).snapshots();
   }
 
-
   Stream<QuerySnapshot<Map<String, dynamic>>> getStudentGroups(String studentId){
     return studentxgroup.where("student_id",isEqualTo: studentId).snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllGroups(){
+    return groups.snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupPosts(String groupId){
+    return posts.where("group_id",isEqualTo: groupId).snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupEvents(String groupId){
+    return events.where("group_id",isEqualTo: groupId).snapshots();
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getGroupStream(String groupId){
+    return groups.doc(groupId).snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId){
+    return events.where("author_id",isEqualTo: studentId).snapshots();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getGroupChat(String groupId){
@@ -33,6 +54,8 @@ class Database{
   Future<DocumentSnapshot<Map<String, dynamic>>> getGroup(String groupId){
     return groups.doc(groupId).get();
   }
+
+
 
 
   //CREATE
@@ -70,6 +93,40 @@ class Database{
   }
 
 
+  Future<bool> addStudentxGroup(StudentxGroup studentxGroup) async{
+    try {
+      DocumentReference reference= studentxgroup.doc();
+      studentxGroup.id=reference.id;
+      await reference.set(studentxGroup.toJson());
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
+
+  Future<bool> addPost(Post post) async{
+    try {
+      DocumentReference reference= posts.doc();
+      post.post_id=reference.id;
+      await reference.set(post.toJson());
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
+
+  Future<bool> addEvent(Event event) async{
+    try {
+      DocumentReference reference= events.doc();
+      event.id=reference.id;
+      await reference.set(event.toJson());
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
+
+  //UPDATE
 
 
   Future<bool> addGroupMessage(GroupChat groupChat) async{
@@ -81,16 +138,7 @@ class Database{
     }
   }
 
-  Future<bool> addPost(Post post) async{
-    try {
-      DocumentReference reference= posts.doc();
-      post.post_id=reference.id;
-      await posts.doc(post.post_id).update(post.toJson());
-      return true;
-    } catch (e) {
-      return Future.error(e); // return error
-    }
-  }
+
 
 }
 

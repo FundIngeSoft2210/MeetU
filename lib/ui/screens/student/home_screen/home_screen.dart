@@ -3,6 +3,9 @@ import 'package:meet_u/event_controller/event_controller.dart';
 import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/properties/own_icons_icons.dart';
 import 'package:meet_u/ui/screens/student/chats_screen/chats_screen.dart';
+import 'package:meet_u/ui/screens/student/group_screen/groups_screen.dart';
+import '../calendar_events_screen/calendar_events_screen.dart';
+import '../student_groups_screen/student_groups_screen.dart';
 import 'Widgets/home_widget.dart';
 
 
@@ -87,7 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         }, title: "Amigos", icon: OwnIcons.contacts),
 
                         HomeWidget(onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentGroupsScreen(student: widget.student)));
+                        }, title: "Mis grupos", icon: OwnIcons.users),
 
+                        HomeWidget(onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroupsScreen(student: widget.student)));
                         }, title: "Grupos", icon: OwnIcons.users),
 
                         HomeWidget(onTap: (){
@@ -95,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }, title: "Chats", icon: OwnIcons.chat_empty),
 
                         HomeWidget(onTap: (){
-
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarEventsScreen(student: widget.student)));
                         }, title: "Calendario", icon: OwnIcons.calendar),
 
                         HomeWidget(onTap: (){
@@ -106,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         }, title: "Ayuda", icon: OwnIcons.help),
 
-                        HomeWidget(onTap: (){
 
-                        }, title: "Configuración", icon: OwnIcons.cog_alt),
                       ],
                     ),
                   )
