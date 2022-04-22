@@ -5,7 +5,13 @@ import 'package:meet_u/ui/screens/verify_email_screen/verifyEmailScreen.dart';
 import 'package:meet_u/utils/utils.dart';
 import '../../../external_services/database.dart';
 
-
+///Pantalla de Creación de Cuenta.
+///
+///Recibe las credenciales del nuevo usuario, si estas cumplen las validaciones
+///(email: termina en @javeriana.edu.co; contraseña: más de 6 caracteres; no existente en la base de datos)
+///se le envía un correo de verificación y se transporta a la pantalla de verificación.
+///
+/// Ofrece la funcionalidad de regresar a la página de inicio de sesión.
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 

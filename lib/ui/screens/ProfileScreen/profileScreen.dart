@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Pantalla del perfil del usuario. Sigue en construcción.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 

@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import '../utils/utils.dart';
 
+/// Permite a un usuario iniciar sesión
+/// Arroja [user-not-found] si el usuario dado no se encuentra en la base de datos
 class Database{
-
-
 
   static Future<User?> loginUsingEmailPassword(
       {required String email,

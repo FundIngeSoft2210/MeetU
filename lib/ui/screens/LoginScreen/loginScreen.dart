@@ -9,6 +9,11 @@ import 'package:meet_u/utils/utils.dart';
 import '../../../external_services/database.dart';
 
 
+/// Pantalla de inicio de sesión
+///
+/// Obtiene las credenciales del usuario y lo transporta a la pantalla de menú principal si son correctas.
+///
+/// Ofrece la funcionalidad de redirigir a las pantallas de reestablecer contraseña y de crear cuenta.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
