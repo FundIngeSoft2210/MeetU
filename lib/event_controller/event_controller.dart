@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +11,8 @@ import 'package:meet_u/model/entities/gender.dart';
 import 'package:meet_u/model/services/message/I_message.dart';
 import 'package:meet_u/model/services/message/message_controller.dart';
 import '../model/entities/student.dart';
+import '../model/services/Post/I_Post.dart';
+import '../model/services/Post/PostController.dart';
 import '../model/services/auth/I_auth.dart';
 import '../model/services/auth/auth_controller.dart';
 import '../model/services/db/I_db.dart';
@@ -25,6 +29,7 @@ class EventController{
   final I_Auth _i_auth= AuthController();
   final I_SignUp _i_signUp=SignUpController();
   final I_Message _i_message=MessageController();
+  final I_Post _i_post=PostController();
 
   //DB
   Stream<DocumentSnapshot<Map<String, dynamic>>> currentUser(String userId) {return _i_dbProvider.currentUser(userId);}
@@ -92,5 +97,8 @@ class EventController{
 
   sendGroupMessage(String message,Student student, GroupChat groupChat)async{_i_message.sendGroupMessage(message, groupChat, student);}
 
-
+  //POST
+  add_Post(Student student, String groupid, String description, File? file, List<String>? tags)async{
+    await _i_post.add_Post(student, groupid, description, file, tags);
+  }
 }

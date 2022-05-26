@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meet_u/model/entities/career.dart';
 import 'package:meet_u/model/entities/chat/group_chat.dart';
@@ -82,6 +84,12 @@ class Student extends MeetU_User{
     groupChat.messages ??= [];
     groupChat.messages!.add(newMessage);
     _database.addGroupMessage(groupChat);
+  }
+
+  addPost(String groupid, String description, File? file, List<String>? tags)async{
+    Post post = Post(id!, groupid, description, "vacio", DateTime.now(), tags);
+    Database _database= Database();
+    await _database.addPost(post);
   }
 
 
