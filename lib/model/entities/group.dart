@@ -15,9 +15,8 @@ class Group{
   String name;
   @JsonKey(name: 'imageUrl')
   String imageUrl;
-  @JsonKey(name: 'members')
   @JsonKey(ignore: true)
-  GroupChat groupChat;
+  GroupChat? groupChat;
   @JsonKey(ignore: true)
   List<StudentxGroup>? members;
   @JsonKey(ignore: true)
@@ -26,7 +25,7 @@ class Group{
   List<Event>? events;
 
 
-  Group(this.name, this.imageUrl,this.groupChat);
+  Group(this.name, this.imageUrl);
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
   Map<String, dynamic> toJson() => _$GroupToJson(this);

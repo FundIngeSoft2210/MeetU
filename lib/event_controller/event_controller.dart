@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_u/model/entities/career.dart';
 import 'package:meet_u/model/entities/career_type.dart';
+import 'package:meet_u/model/entities/chat/group_chat.dart';
 import 'package:meet_u/model/entities/gender.dart';
+import 'package:meet_u/model/services/message/I_message.dart';
+import 'package:meet_u/model/services/message/message_controller.dart';
 import '../model/entities/student.dart';
 import '../model/services/auth/I_auth.dart';
 import '../model/services/auth/auth_controller.dart';
@@ -21,10 +24,16 @@ class EventController{
   final I_DBProvider _i_dbProvider=DBController();
   final I_Auth _i_auth= AuthController();
   final I_SignUp _i_signUp=SignUpController();
+  final I_Message _i_message=MessageController();
 
   //DB
   Stream<DocumentSnapshot<Map<String, dynamic>>> currentUser(String userId) {return _i_dbProvider.currentUser(userId);}
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getStudentGroups(String studentId){return _i_dbProvider.getStudentGroups(studentId);}
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getGroup(String groupId)async{return await _i_dbProvider.getGroup(groupId);}
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupChat(String groupId){return _i_dbProvider.getGroupChat(groupId);}
 
   //AUTH
 
@@ -78,6 +87,10 @@ class EventController{
   }
 
 
+
+  //MESSAGE
+
+  sendGroupMessage(String message,Student student, GroupChat groupChat)async{_i_message.sendGroupMessage(message, groupChat, student);}
 
 
 }
