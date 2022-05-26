@@ -4,6 +4,7 @@ import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/properties/own_icons_icons.dart';
 import 'package:meet_u/ui/screens/student/chats_screen/chats_screen.dart';
 import 'package:meet_u/ui/screens/student/group_screen/groups_screen.dart';
+import 'package:meet_u/ui/screens/student/profile_screen/profile_screen.dart';
 import '../calendar_events_screen/calendar_events_screen.dart';
 import '../student_groups_screen/student_groups_screen.dart';
 import 'Widgets/home_widget.dart';
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisCount: 2,childAspectRatio: 1.5,),
                       children: [
                         HomeWidget(onTap: (){
-
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen(student: widget.student)));
                         }, title: "Perfil", icon: OwnIcons.child,),
 
                         HomeWidget(onTap: (){

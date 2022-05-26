@@ -9,7 +9,7 @@ class SignUpController implements I_SignUp{
 
   @override
   finishSignUp(Student student)async{
-    student.finishsignUp();
+    student.finishSignUp();
   }
 
   @override

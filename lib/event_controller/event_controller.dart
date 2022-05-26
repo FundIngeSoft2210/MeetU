@@ -56,6 +56,7 @@ class EventController{
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId) {return _i_dbProvider.getStudentEvents(studentId);}
 
+
   //AUTH
   sendVerificationEmail() async {
     try {

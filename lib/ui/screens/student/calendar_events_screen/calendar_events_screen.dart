@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:meet_u/event_controller/event_controller.dart';
 import 'package:meet_u/model/entities/event.dart';
 import 'package:meet_u/model/entities/student.dart';
-import 'package:meet_u/ui/screens/student/student_groups_screen/Widgets/event_box.dart';
 import '../../../properties/loading_widget.dart';
 import 'Widget/calendar_event_box.dart';
 
 class CalendarEventsScreen extends StatefulWidget {
   Student student;
   CalendarEventsScreen({Key? key, required this.student}) : super(key: key);
+
 
   @override
   State<CalendarEventsScreen> createState() => _CalendarEventsScreenState();
@@ -65,30 +65,28 @@ class _CalendarEventsScreenState extends State<CalendarEventsScreen> {
             ),
             Expanded(
               flex: 8,
-              child: Container(
-                child: StreamBuilder(
-                  stream: _eventController.getStudentEvents(widget.student.id!),
-                  builder: (BuildContext context, AsyncSnapshot snapshot){
-                    if(!snapshot.hasData){
-                      return Container(child: LoadingWidget(),color: Colors.white);
-                    }else{
-                      return ListView.builder(
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (_, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                top: 20,
-                                bottom: 20
-                              ),
-                              child: CalendarEventBox(event: Event.fromJson(snapshot.data.docs[index].data()))
-                            );
-                          }
-                      );
-                    }
-                  },
-                ),
+              child: StreamBuilder(
+                stream: _eventController.getStudentEvents(widget.student.id!),
+                builder: (BuildContext context, AsyncSnapshot snapshot){
+                  if(!snapshot.hasData){
+                    return Container(child: LoadingWidget(),color: Colors.white);
+                  }else{
+                    return ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (_, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              top: 20,
+                              bottom: 20
+                            ),
+                            child: CalendarEventBox(event: Event.fromJson(snapshot.data.docs[index].data()))
+                          );
+                        }
+                    );
+                  }
+                },
               ),
             )
           ],
