@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:meet_u/model/services/group/I_group.dart';
 import 'package:meet_u/model/services/group/group_controller.dart';
 
@@ -11,7 +12,7 @@ class AdminEventController{
 
   addGroup(Admin admin, String groupName, String groupImageUrl) async{
     await _i_group.addGroup(admin, Group(groupName, groupImageUrl));
-    Utils.showSnackBar("Se agregó el grupo");
+    Utils.showSnackBar("Se agregó el grupo",Colors.green);
   }
 
 }

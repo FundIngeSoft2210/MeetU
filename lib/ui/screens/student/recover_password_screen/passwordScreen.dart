@@ -128,9 +128,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                                     .sendPasswordResetEmail(
                                         email: _emailController.text.trim());
                                 Utils.showSnackBar(
-                                    'Se envió un correo a su email.');
+                                    'Se envió un correo a su email.',Colors.green);
                               } on FirebaseAuthException catch (e) {
-                                Utils.showSnackBar(e.message);
+                                Utils.showSnackBar(e.message,Colors.red);
                               }
                             },
                           ),

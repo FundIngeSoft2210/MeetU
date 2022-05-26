@@ -27,6 +27,31 @@ class DBController implements I_DBProvider{
     return _database.getGroupChat(groupId);
   }
 
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllGroups() {
+    return _database.getAllGroups();
+  }
+
+  @override
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getGroupStream(String groupId){
+    return _database.getGroupStream(groupId);
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupPosts(String groupId) {
+    return _database.getGroupPosts(groupId);
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupEvents(String groupId) {
+    return _database.getGroupEvents(groupId);
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId) {
+    return _database.getStudentEvents(studentId);
+  }
+
 
 
 }

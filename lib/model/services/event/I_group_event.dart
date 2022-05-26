@@ -3,10 +3,9 @@ import 'package:meet_u/model/entities/student.dart';
 import '../../entities/group.dart';
 
 
-abstract class I_Group{
+abstract class I_GroupEvent{
 
-  addGroup(Admin admin,Group group);
-  joinGroup(String groupId, Student student);
+  addEvent(String groupid, String description, String place, DateTime date, Student student);
 
 
 }

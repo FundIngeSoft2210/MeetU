@@ -43,7 +43,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     if(!snapshot.hasData){
                       return Container(child: LoadingWidget(),color: Colors.white);
                     }else{
-
                       return Column(
                         children: [
                           Expanded(
