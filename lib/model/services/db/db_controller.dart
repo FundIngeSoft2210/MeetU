@@ -15,7 +15,7 @@ class DBController implements I_DBProvider{
 
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getStudentGroups(String studentId) {
-   return _database.getStudentGroups(studentId);
+    return _database.getStudentGroups(studentId);
   }
 
   @override

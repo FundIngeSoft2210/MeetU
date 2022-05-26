@@ -4,21 +4,24 @@ import '../../../external_services/auth.dart';
 import 'I_auth.dart';
 
 
-class AuthController implements I_Auth{
+class AuthController implements I_Auth {
 
-  final AuthService _authService= AuthService();
-
-  @override
-  Stream<User?> getAuthStatus() {return _authService.authStatus;}
-
+  final AuthService _authService = AuthService();
 
   @override
-  loginUsingEmailPassword(String email, String password)async{
+  Stream<User?> getAuthStatus() {
+    return _authService.authStatus;
+  }
+
+
+  @override
+  loginUsingEmailPassword(String email, String password) async {
     await _authService.loginUsingEmailPassword(email, password);
   }
 
   @override
-  Future<UserCredential> createUserWithEmailAndPassword(String email,String password) async {
+  Future<UserCredential> createUserWithEmailAndPassword(String email,
+      String password) async {
     return await _authService.createUserWithEmailAndPassword(email, password);
   }
 
@@ -33,7 +36,7 @@ class AuthController implements I_Auth{
   }
 
   @override
-  reload()async{
+  reload() async {
     await _authService.reload();
   }
 
@@ -46,8 +49,6 @@ class AuthController implements I_Auth{
   deleteFromAuth() {
     _authService.deleteFromAuth();
   }
-
-
 
 
 }
