@@ -123,16 +123,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 Text("¿Está segura(o) de eliminar su cuenta?"),
                             actions: [
                               TextButton(
-                                  onPressed: () => {
-                                        _eventController.deleteFromAuth(),
-                                        _eventController.signOut(),
+                                  onPressed: () async {
+                                    bool step1 = true;
+                                    bool step2 = false;
+                                    bool step3 = false;
+                                    bool step4 = false;
+                                    while (true) {
+                                      if (step1) {
+                                        //delete user info in the database
                                         _eventController
-                                            .deleteUser(widget.student.id!),
+                                            .deleteUser(widget.student.id!);
+                                        step1 = false;
+                                        step2 = true;
+                                      }
+
+                                      if (step2) {
+                                        //delete user
+                                        _eventController.deleteFromAuth();
+                                        step2 = false;
+                                        step3 = true;
+                                      }
+
+                                      if (step3) {
+                                        _eventController.signOut();
+                                        step3 = false;
+                                        step4 = true;
+                                      }
+
+                                      if (step4) {
+                                        //go to sign up log in page
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const LoginScreen()))
-                                      },
+                                                    const LoginScreen()));
+                                        step4 = false;
+                                      }
+
+                                      if (!step1 &&
+                                          !step2 &&
+                                          !step3 &&
+                                          !step4) {
+                                        break;
+                                      }
+                                    }
+                                  },
                                   child: Text("Sí")),
                               TextButton(
                                   onPressed: () => Navigator.pop(context),
