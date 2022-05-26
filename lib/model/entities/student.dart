@@ -67,7 +67,7 @@ class Student extends MeetU_User{
     this.lastName=lastName;
     hobbiesPicturesUrls=null;
     description=null;
-    imagePath = "https://images.unsplash.com/photo-1606062663931-277af9e93298?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070";
+    imagePath = null;
     this.id=id;
     this.career=career;
     this.gender=gender;

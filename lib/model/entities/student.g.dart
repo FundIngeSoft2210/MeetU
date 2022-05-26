@@ -16,6 +16,7 @@ Student _$StudentFromJson(Map<String, dynamic> json) => Student()
   ..friends =
       (json['friends'] as List<dynamic>?)?.map((e) => e as String).toList()
   ..description = json['description'] as String?
+  ..imagePath = json['image'] as String?
   ..hobbiesPicturesUrls = (json['hobbiesPicturesUrls'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList()
@@ -32,6 +33,7 @@ Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
       'gender': _$GenderEnumMap[instance.gender],
       'friends': instance.friends,
       'description': instance.description,
+      'image': instance.imagePath,
       'hobbiesPicturesUrls': instance.hobbiesPicturesUrls,
       'career': instance.career?.toJson(),
     };
