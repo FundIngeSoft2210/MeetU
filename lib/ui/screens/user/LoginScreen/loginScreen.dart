@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:meet_u/ui/screens/recover_password_screen/passwordScreen.dart';
-import 'package:meet_u/ui/screens/sign_up_screen/signUpScreen.dart';
-import 'package:meet_u/ui/screens/verify_email_screen/verifyEmailScreen.dart';
-import 'package:meet_u/utils/utils.dart';
-import '../../../external_services/database.dart';
+import 'package:meet_u/event_controller/event_controller.dart';
+import '../../student/recover_password_screen/passwordScreen.dart';
+import '../../student/sign_up_screen/signUpScreen.dart';
+
+
 
 
 /// Pantalla de inicio de sesión
@@ -24,6 +23,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final EventController _eventController=EventController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -172,20 +173,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 child: Text("Iniciar Sesión",
                                                     style: TextStyle(fontSize: 20)),
                                               )),
-                                          onTap: () async {
-                                            User? user = await Database.loginUsingEmailPassword(
-                                                email: _emailController.text,
-                                                password: _passwordController.text,
-                                                context: context);
-                                            if (user != null) {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                      const VerifyEmailScreen()));
-                                            } else {
-                                              Utils.showSnackBar(
-                                                  "No existe esta cuenta o los datos ingresados son incorrectos.");
-                                            }
+                                          onTap: ()async{
+                                            await _eventController.loginUsingEmailPassword(
+                                                _emailController.text,
+                                                _passwordController.text);
                                           },
                                         ),
                                       ),
@@ -245,7 +236,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                         const SignUpScreen()));
-                                              }),
+                                                }
+                                              ),
                                         ),
                                         Expanded(
                                             flex: 1,
@@ -254,13 +246,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                             )),
                                       ],
                                     ),
-                                  ))),
+                                  )
+                              )
+                          ),
                         ),
                       ],
                     ),
                   )
               )
-          )),
+          )
+      ),
     );
   }
 }

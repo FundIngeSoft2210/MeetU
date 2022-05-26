@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/utils/utils.dart';
 
-import '../LoginScreen/loginScreen.dart';
+import '../../user/LoginScreen/loginScreen.dart';
 
 class RecoverPasswordScreen extends StatefulWidget {
   const RecoverPasswordScreen({Key? key}) : super(key: key);

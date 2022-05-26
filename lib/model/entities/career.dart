@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meet_u/models/entities/career_type.dart';
+import 'package:meet_u/model/entities/career_type.dart';
 part 'career.g.dart';
 
 

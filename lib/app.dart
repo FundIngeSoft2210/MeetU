@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meet_u/ui/screens/splash_screen/SplashController.dart';
+import 'package:meet_u/ui/screens/user/splash_screen/SplashController.dart';
 import 'package:meet_u/utils/utils.dart';
 
 class App extends StatelessWidget {

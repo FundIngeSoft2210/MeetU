@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_u/external_services/auth.dart';
-import 'package:meet_u/ui/screens/home_screen/home_screen.dart';
-import 'package:meet_u/utils/utils.dart';
-import '../LoginScreen/loginScreen.dart';
+import 'package:meet_u/event_controller/event_controller.dart';
+import 'package:meet_u/ui/screens/user/start_screen/start_screen.dart';
+import '../../../../model/entities/student.dart';
+
+
 
 ///Pantalla de Verificación de Email.
 ///
@@ -13,7 +14,8 @@ import '../LoginScreen/loginScreen.dart';
 /// Ofrece la opción de reenviar email después de 5 segundos de haber enviado el anterior.
 /// Posee una funcionalidad de cancelar, la cual redirige a la página de inicio de sesión.
 class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({Key? key}) : super(key: key);
+  Student student;
+  VerifyEmailScreen({Key? key, required this.student}) : super(key: key);
 
   @override
   State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
@@ -21,16 +23,16 @@ class VerifyEmailScreen extends StatefulWidget {
 
 class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   bool isEmailVerified = false;
-  bool canResendEmail = false;
   Timer? timer;
-  final  AuthService _authService=AuthService();
+  final EventController _eventController=EventController();
 
 
   @override
-  void initState() {
-    isEmailVerified = _authService.checkEmailIsVerified();
+  void initState(){
+    isEmailVerified=_eventController.checkEmailIsVerified();
+    if(isEmailVerified)_eventController.finishSignUp(widget.student);
     if (!isEmailVerified) {
-      _authService.sendVerificationEmail();
+      _eventController.sendVerificationEmail();
       timer = Timer.periodic(
         const Duration(seconds: 3),
         (_) => checkEmailVerified(),
@@ -45,29 +47,43 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     super.dispose();
   }
 
+  /*@override
+  void initState(){
+    _eventController.checkEmailIsVerified().then((value)  {
+      isEmailVerified=value;
+      if(value){
+        _eventController.finishSignUp(widget.student);
+        Navigator.pop(context);
+        Navigator.pop(context);
+      };
+
+    });
+    if (!isEmailVerified) {
+      _eventController.sendVerificationEmail();
+      timer = Timer.periodic(
+        const Duration(seconds: 3),
+        (_) => checkEmailVerified(),
+      );
+    }
+    super.initState();
+  }*/
+
 
   checkEmailVerified() async {
-    await _authService.reload();
-    setState(() => isEmailVerified = _authService.checkEmailIsVerified());
-    if (isEmailVerified) timer?.cancel();
-  }
-
-
-   sendVerificationEmail() async {
-    try {
-      await _authService.sendVerificationEmail();
-      setState(() => canResendEmail = false);
-      await Future.delayed(const Duration(seconds: 5));
-      setState(() => canResendEmail = true);
-    } catch (e) {
-      Utils.showSnackBar("Debe esperar unos segundos antes de volver a enviar el correo de verificación");
+    bool check= _eventController.checkEmailIsVerified();
+    setState(() => isEmailVerified = check);
+    if (isEmailVerified){
+      timer?.cancel();
+     await _eventController.finishSignUp(widget.student);
     }
   }
 
+
   @override
-  Widget build(BuildContext context) => isEmailVerified
-      ? const HomeScreen()
-      : SafeArea(
+  Widget build(BuildContext context) => isEmailVerified?
+      StartScreen()
+      :
+      SafeArea(
           child: Scaffold(
               resizeToAvoidBottomInset: false,
               body: Column(
@@ -155,11 +171,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                           child: Text("Reenviar Email",
                                               style: TextStyle(fontSize: 20)),
                                         )),
-                                    onTap: () {
-                                      canResendEmail
-                                          ? sendVerificationEmail()
-                                          : Utils.showSnackBar(
-                                              "Debe esperar unos segundos antes de volver a enviar el correo de verificación");
+                                    onTap: ()async{
+                                      await _eventController.sendVerificationEmail();
+                                      await checkEmailVerified();
                                     },
                                   ),
                                 ),
@@ -183,8 +197,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                                   recognizer:
                                                       TapGestureRecognizer()
                                                         ..onTap = () {
-                                                        _authService.signOut();
-                                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context) => const LoginScreen()));
+                                                          _eventController.signOut();
+                                                          Navigator.pop(context);
+                                                          Navigator.pop(context);
                                                         }),
                                             ],
                                           ),

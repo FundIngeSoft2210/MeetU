@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meet_u/models/entities/chat/chat.dart';
-import 'package:meet_u/models/entities/chat_type.dart';
-
+import 'package:meet_u/model/entities/chat/chat.dart';
+import 'package:meet_u/model/entities/chat_type.dart';
 import 'message.dart';
 part 'private_chat.g.dart';
 
