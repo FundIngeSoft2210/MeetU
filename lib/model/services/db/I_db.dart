@@ -24,4 +24,8 @@ abstract class I_DBProvider{
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId);
 
+  Future<bool> updateStudent(Student student);
+
+  Future<bool> deleteUser(String userId);
+
 }

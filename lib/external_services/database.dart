@@ -138,7 +138,25 @@ class Database{
     }
   }
 
+  Future<bool> updateStudent(Student student) async{
+    try {
 
+      await users.doc(student.id).update(student.toJson());
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
+
+  Future<bool> deleteUser(String userId) async {
+    try {
+      await users.doc(userId).delete();
+
+      return true;
+    } catch (e) {
+      return Future.error(e); // return error
+    }
+  }
 
 }
 

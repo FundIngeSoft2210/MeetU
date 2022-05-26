@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../external_services/database.dart';
+import '../../entities/student.dart';
 import 'I_db.dart';
 
 
@@ -52,6 +53,13 @@ class DBController implements I_DBProvider{
     return _database.getStudentEvents(studentId);
   }
 
+  @override
+  Future<bool> updateStudent(Student student){
+    return _database.updateStudent(student);
+  }
 
+  Future<bool> deleteUser(String userId){
+    return _database.deleteUser(userId);
+  }
 
 }

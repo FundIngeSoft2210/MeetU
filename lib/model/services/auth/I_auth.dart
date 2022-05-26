@@ -15,5 +15,7 @@ abstract class I_Auth {
 
   signOut();
 
+  deleteFromAuth();
+
 
 }

@@ -42,6 +42,11 @@ class AuthController implements I_Auth{
     _authService.signOut();
   }
 
+  @override
+  deleteFromAuth() {
+    _authService.deleteFromAuth();
+  }
+
 
 
 

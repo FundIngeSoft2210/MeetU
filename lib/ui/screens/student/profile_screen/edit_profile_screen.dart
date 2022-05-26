@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/screens/student/profile_screen/Widgets/appbar.dart';
 import 'package:meet_u/ui/screens/student/profile_screen/Widgets/profile_widget.dart';
+import 'package:meet_u/ui/screens/student/profile_screen/profile_screen.dart';
+import 'package:meet_u/ui/screens/user/LoginScreen/loginScreen.dart';
 
+import '../../../../event_controller/event_controller.dart';
 import 'Widgets/button_widget.dart';
 import 'Widgets/textfield_widget.dart';
 
@@ -16,6 +20,12 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
+  final EventController _eventController = EventController();
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: buildAppBar(context),
@@ -30,32 +40,70 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   isEdit: true,
                   onClicked: () async {}),
               const SizedBox(height: 24),
-              TextFieldWidget(
-                label: "Nombre(s)",
-                text: widget.student.name,
-                onChanged: (firstname) {},
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Nombre(s)",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      hintText: widget.student.name,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  )
+                ],
               ),
               const SizedBox(height: 24),
-              TextFieldWidget(
-                label: "Apellido(s)",
-                text: widget.student.lastName,
-                onChanged: (lastname) {},
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Apellido(s)",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _lastNameController,
+                    decoration: InputDecoration(
+                      hintText: widget.student.lastName,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  )
+                ],
               ),
               const SizedBox(height: 24),
-              TextFieldWidget(
-                label: "Descripción",
-                text: widget.student.description.toString() != 'null'
-                    ? widget.student.description.toString()
-                    : "Ingresar Descripción.",
-                maxLines: 5,
-                onChanged: (description) {},
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Descripción",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _descriptionController,
+                    decoration: InputDecoration(
+                      hintText: widget.student.description.toString() != 'null'
+                          ? widget.student.description.toString()
+                          : "Ingresar Descripción.",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  )
+                ],
               ),
               const SizedBox(height: 24),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  buildUpgradeButton("Cerrar Cuenta", true),
+                  buildUpgradeButton("Borrar Cuenta", true),
                   const SizedBox(width: 8),
                   buildUpgradeButton("Guardar", false),
                 ],
@@ -65,7 +113,49 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget buildUpgradeButton(String text, bool end) => ButtonWidget(
         text: text,
-        onClicked: () {},
+        onClicked: () async {
+          end
+              ? {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title:
+                                Text("¿Está segura(o) de eliminar su cuenta?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => {
+                                        _eventController.deleteFromAuth(),
+                                        _eventController.signOut(),
+                                        _eventController
+                                            .deleteUser(widget.student.id!),
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LoginScreen()))
+                                      },
+                                  child: Text("Sí")),
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("No"))
+                            ],
+                          )),
+                }
+              : {
+                  widget.student.name = _nameController.text == ""
+                      ? widget.student.name
+                      : _nameController.text,
+                  widget.student.lastName = _lastNameController.text == ""
+                      ? widget.student.lastName
+                      : _lastNameController.text,
+                  widget.student.description = _descriptionController.text == ""
+                      ? widget.student.description
+                      : _descriptionController.text,
+                  _eventController.updateStudent(widget.student),
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ProfileScreen(student: widget.student)))
+                };
+        },
         end: end,
       );
 }

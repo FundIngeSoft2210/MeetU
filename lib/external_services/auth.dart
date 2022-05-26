@@ -24,4 +24,8 @@ class AuthService{
 
   signOut(){_auth.signOut();}
 
+  deleteFromAuth(){
+    _auth.currentUser!.delete();
+  }
+
 }

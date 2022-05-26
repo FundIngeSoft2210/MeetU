@@ -56,6 +56,10 @@ class EventController{
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId) {return _i_dbProvider.getStudentEvents(studentId);}
 
+  Future<bool> updateStudent(Student student){ return _i_dbProvider.updateStudent(student);}
+  
+  Future<bool> deleteUser(String userId){ return _i_dbProvider.deleteUser(userId);}
+
 
   //AUTH
   sendVerificationEmail() async {
@@ -84,6 +88,8 @@ class EventController{
 
 
   signOut(){_i_auth.signOut();}
+
+  deleteFromAuth(){_i_auth.deleteFromAuth();}
 
 
 
