@@ -11,8 +11,8 @@ class GroupController implements I_Group{
   }
 
   @override
-  joinGroup(String groupId, Student student)async{
-    await student.joinGroup(groupId);
+  Future<bool> joinGroup(String groupId, Student student)async{
+   return  await student.joinGroup(groupId);
   }
 
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/screens/student/student_groups_screen/Widgets/event_box.dart';
+import 'package:meet_u/ui/screens/student/student_groups_screen/Widgets/member_widgets.dart';
 import 'package:meet_u/ui/screens/student/student_groups_screen/Widgets/post_box.dart';
 
 import '../../../../event_controller/event_controller.dart';
@@ -24,7 +25,8 @@ class _GroupScreenState extends State<GroupScreen> {
 
   bool addPost=false;
   bool addEvent=false;
-  bool showPosts=true;
+  int currentOption=0;
+
   DateTime? eventDate;
   final TextEditingController _descriptionController = TextEditingController();
   final EventController _eventController=EventController();
@@ -90,7 +92,7 @@ class _GroupScreenState extends State<GroupScreen> {
                                 child: InkWell(
                                     onTap: (){
                                       setState(() {
-                                        showPosts=true;
+                                        currentOption=0;
                                       });
                                     },
                                     child: Container(
@@ -115,7 +117,7 @@ class _GroupScreenState extends State<GroupScreen> {
                                 child: InkWell(
                                     onTap: (){
                                       setState(() {
-                                        showPosts=false;
+                                        currentOption=1;
                                       });
                                     },
                                     child: Container(
@@ -134,7 +136,34 @@ class _GroupScreenState extends State<GroupScreen> {
                                         )
                                     )
                                 )
+                            ),
+
+                            Expanded(
+                                flex: 2,
+                                child: InkWell(
+                                    onTap: (){
+                                      setState(() {
+                                        currentOption=3;
+                                      });
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.all(10),
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        child: Center(
+                                          child: Text(
+                                            "Miembros",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.orange,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                        )
+                                    )
+                                )
                             )
+
                           ],
                         ),
 
@@ -142,7 +171,7 @@ class _GroupScreenState extends State<GroupScreen> {
 
                       Expanded(
                           flex: 6,
-                          child: showPosts?
+                          child: currentOption==0?
                           StreamBuilder(
                             stream: _eventController.getGroupPosts(widget.groupId),
                             builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -208,72 +237,107 @@ class _GroupScreenState extends State<GroupScreen> {
                             },
                           )
                               :
-                          StreamBuilder(
-                            stream: _eventController.getGroupEvents(widget.groupId),
-                            builder: (BuildContext context, AsyncSnapshot snapshot){
-                              if(!snapshot.hasData){
-                                return LoadingWidget();
-                              }else{
-                                return Column(
-                                  children: [
-                                    Expanded(
-                                      flex: 5,
-                                      child:
-                                      ListView.builder(
-                                        itemCount: snapshot.data.docs.length,
-                                        itemBuilder: (_, int index) {
-                                          return Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 15,
-                                                left: 30,
-                                                right: 30,
-                                                bottom: 15
-                                            ),
-                                            child: EventBox(event: Event.fromJson(snapshot.data.docs[index].data())),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: !addPost?
-                                        InkWell(
-                                            onTap: (){
-                                              setState(() {
-                                                addEvent=true;
-                                                addPost=false;
-                                              });
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.all(10),
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                decoration: const BoxDecoration(
-                                                    color: Colors.greenAccent,
-                                                    borderRadius: BorderRadius.all(Radius.circular(20))
+
+                              currentOption==1?
+                              StreamBuilder(
+                                stream: _eventController.getGroupEvents(widget.groupId),
+                                builder: (BuildContext context, AsyncSnapshot snapshot){
+                                  if(!snapshot.hasData){
+                                    return LoadingWidget();
+                                  }else{
+                                    return Column(
+                                      children: [
+                                        Expanded(
+                                          flex: 5,
+                                          child:
+                                          ListView.builder(
+                                            itemCount: snapshot.data.docs.length,
+                                            itemBuilder: (_, int index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 15,
+                                                    left: 30,
+                                                    right: 30,
+                                                    bottom: 15
                                                 ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Añadir evento",
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold
+                                                child: EventBox(event: Event.fromJson(snapshot.data.docs[index].data())),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Expanded(
+                                            flex: 1,
+                                            child: !addPost?
+                                            InkWell(
+                                                onTap: (){
+                                                  setState(() {
+                                                    addEvent=true;
+                                                    addPost=false;
+                                                  });
+                                                },
+                                                child: Container(
+                                                    margin: EdgeInsets.all(10),
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    decoration: const BoxDecoration(
+                                                        color: Colors.greenAccent,
+                                                        borderRadius: BorderRadius.all(Radius.circular(20))
                                                     ),
-                                                  ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Añadir evento",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                    )
                                                 )
                                             )
-                                        )
-                                            :
-                                        Container()
-                                    ),
-                                  ],
-                                );
-                              }
-                            },
-                          )
-                      ),
+                                                :
+                                            Container()
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                              )
 
+                                  :
+
+                              StreamBuilder(
+                                stream: _eventController.getGroupMembers(widget.groupId),
+                                builder: (BuildContext context, AsyncSnapshot snapshot){
+                                  if(!snapshot.hasData){
+                                    return LoadingWidget();
+                                  }else{
+                                    return Column(
+                                      children: [
+                                        Expanded(
+                                          flex: 5,
+                                          child:
+                                          ListView.builder(
+                                            itemCount: snapshot.data.docs.length,
+                                            itemBuilder: (_, int index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 15,
+                                                    left: 30,
+                                                    right: 30,
+                                                    bottom: 15
+                                                ),
+                                                child: MemeberWidget(memberId: snapshot.data.docs[index]["student_id"])
+                                          );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                              )
+                      ),
                     ],
                   ),
 

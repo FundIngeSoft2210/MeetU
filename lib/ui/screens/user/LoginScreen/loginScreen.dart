@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meet_u/event_controller/event_controller.dart';
+import 'package:meet_u/model/entities/admin.dart';
 import '../../student/recover_password_screen/passwordScreen.dart';
 import '../../student/sign_up_screen/signUpScreen.dart';
 

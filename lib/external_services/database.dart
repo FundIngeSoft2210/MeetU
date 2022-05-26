@@ -27,6 +27,10 @@ class Database{
     return studentxgroup.where("student_id",isEqualTo: studentId).snapshots();
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupMemebers(String  groupId){
+    return studentxgroup.where("group_id",isEqualTo: groupId).snapshots();
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllGroups(){
     return groups.snapshots();
   }
@@ -53,6 +57,10 @@ class Database{
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getGroup(String groupId){
     return groups.doc(groupId).get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getStudentxGroup(String studentId,String groupId){
+    return studentxgroup.where("group_id", isEqualTo: groupId).where("student_id",isEqualTo: studentId).get();
   }
 
 

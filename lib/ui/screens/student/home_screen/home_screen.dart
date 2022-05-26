@@ -4,7 +4,9 @@ import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/properties/own_icons_icons.dart';
 import 'package:meet_u/ui/screens/student/chats_screen/chats_screen.dart';
 import 'package:meet_u/ui/screens/student/group_screen/groups_screen.dart';
+import 'package:meet_u/ui/screens/student/help_screen/help_screen.dart';
 import 'package:meet_u/ui/screens/student/profile_screen/profile_screen.dart';
+import '../../../../model/entities/admin.dart';
 import '../calendar_events_screen/calendar_events_screen.dart';
 import '../student_groups_screen/student_groups_screen.dart';
 import 'Widgets/home_widget.dart';
@@ -73,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(color: Colors.white,),
               ),
               Expanded(
-                flex: 6,
+                flex: 7,
                 child: Container(
                   color: Colors.white,
                   child: Align(
@@ -82,13 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,childAspectRatio: 1.5,),
                       children: [
-                        HomeWidget(onTap: (){
+                        HomeWidget(onTap: ()async{
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen(student: widget.student)));
                         }, title: "Perfil", icon: OwnIcons.child,),
 
-                        HomeWidget(onTap: (){
-
-                        }, title: "Amigos", icon: OwnIcons.contacts),
 
                         HomeWidget(onTap: (){
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentGroupsScreen(student: widget.student)));
@@ -111,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }, title: "Cerrar sesión", icon: OwnIcons.cancel),
 
                         HomeWidget(onTap: (){
-
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HelpScreen(student: widget.student)));
                         }, title: "Ayuda", icon: OwnIcons.help),
 
 

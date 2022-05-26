@@ -56,8 +56,10 @@ class EventController{
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getStudentEvents(String studentId) {return _i_dbProvider.getStudentEvents(studentId);}
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupMembers(String groupId) {return _i_dbProvider.getGroupMembers(groupId);}
+
   Future<bool> updateStudent(Student student){ return _i_dbProvider.updateStudent(student);}
-  
+
   Future<bool> deleteUser(String userId){ return _i_dbProvider.deleteUser(userId);}
 
 
@@ -88,8 +90,6 @@ class EventController{
 
 
   signOut(){_i_auth.signOut();}
-
-  deleteFromAuth(){_i_auth.deleteFromAuth();}
 
 
 

@@ -6,7 +6,7 @@ import '../../entities/group.dart';
 abstract class I_Group{
 
   addGroup(Admin admin,Group group);
-  joinGroup(String groupId, Student student);
+  Future<bool> joinGroup(String groupId, Student student);
 
 
 }

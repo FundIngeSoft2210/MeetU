@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meet_u/model/entities/career.dart';
 import 'package:meet_u/model/entities/chat/group_chat.dart';
@@ -94,10 +95,17 @@ class Student extends MeetU_User{
     await _database.addPost(post);
   }
 
-  joinGroup(String groupId)async{
+  Future<bool> joinGroup(String groupId)async{
     Database _database= Database();
-    StudentxGroup studentxGroup=StudentxGroup(id!, groupId);
-    await _database.addStudentxGroup(studentxGroup);
+    QuerySnapshot<Map<String, dynamic>> querySnapshot= await _database.getStudentxGroup(id!, groupId);
+    print(querySnapshot.docs.length);
+    if(querySnapshot.docs.isNotEmpty){
+      return false;
+    }else{
+      StudentxGroup studentxGroup=StudentxGroup(id!, groupId);
+      await _database.addStudentxGroup(studentxGroup);
+      return true;
+    }
   }
 
   addEvent(String groupid, String description, String place, DateTime date)async{

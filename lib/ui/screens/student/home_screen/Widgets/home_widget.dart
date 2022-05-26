@@ -18,22 +18,7 @@ class HomeWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                          title,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black
-                          )
-                      ),
-                    ),
-                  ),
-                ),
+
                 Expanded(
                   flex: 5,
                   child: Stack(
@@ -54,7 +39,25 @@ class HomeWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
+
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                          title,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black
+                          )
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             )
         ),

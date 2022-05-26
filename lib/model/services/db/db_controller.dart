@@ -54,6 +54,11 @@ class DBController implements I_DBProvider{
   }
 
   @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getGroupMembers(String groupId) {
+    return _database.getGroupMemebers(groupId);
+  }
+
+  @override
   Future<bool> updateStudent(Student student){
     return _database.updateStudent(student);
   }
