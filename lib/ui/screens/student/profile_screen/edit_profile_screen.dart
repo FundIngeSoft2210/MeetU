@@ -1,14 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/screens/student/profile_screen/Widgets/appbar.dart';
 import 'package:meet_u/ui/screens/student/profile_screen/Widgets/profile_widget.dart';
 import 'package:meet_u/ui/screens/student/profile_screen/profile_screen.dart';
 import 'package:meet_u/ui/screens/user/LoginScreen/loginScreen.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../event_controller/event_controller.dart';
 import 'Widgets/button_widget.dart';
-import 'Widgets/textfield_widget.dart';
 
 class EditProfileScreen extends StatefulWidget {
   Student student;
@@ -38,7 +39,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   imagePath: widget.student.imagePath ??
                       "https://images.unsplash.com/photo-1606062663931-277af9e93298?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070",
                   isEdit: true,
-                  onClicked: () async {}),
+                  onClicked: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                                title: Text("Ruta Imagen"),
+                                content: TextField(
+                                  autofocus: true,
+                                  controller: _imageController,
+                                  decoration: InputDecoration(
+                                      hintText: "Ingresa la ruta de la imagen"),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: Text('Enter'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ]));
+                  }),
               const SizedBox(height: 24),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,6 +195,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           )),
                 }
               : {
+                  widget.student.imagePath = _imageController.text == ""
+                      ? (widget.student.imagePath ??
+                          "https://images.unsplash.com/photo-1606062663931-277af9e93298?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070")
+                      : _imageController.text,
                   widget.student.name = _nameController.text == ""
                       ? widget.student.name
                       : _nameController.text,

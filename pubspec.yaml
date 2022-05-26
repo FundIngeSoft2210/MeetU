@@ -46,7 +46,7 @@ dependencies:
   fluttertoast: ^8.0.8
 
   #JSON HANDLER
-  json_annotation: 4.4.0
+  json_annotation: ^4.5.0
 
   #IMAGE HANDLER
   cached_network_image: ^3.0.0
@@ -54,13 +54,16 @@ dependencies:
   #DATE HANDLER
   flutter_datetime_picker: ^1.5.1
 
+  #IMAGE PICKER
+  image_picker: ^0.8.5+3
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  build_runner: 2.1.7  # https://pub.dev/packages/build_runner
-  json_serializable: 6.1.4 # https://pub.dev/packages/json_serializable
+  build_runner: ^2.1.11  # https://pub.dev/packages/build_runner
+  json_serializable: ^6.2.0 # https://pub.dev/packages/json_serializable
 
 
 
