@@ -7,12 +7,6 @@ import '../../../../model/entities/student.dart';
 
 
 
-///Pantalla de Verificación de Email.
-///
-/// Esta pantalla redirige automáticamente al usuario a la pantalla del menú principal después de haber verificado el email.
-///
-/// Ofrece la opción de reenviar email después de 5 segundos de haber enviado el anterior.
-/// Posee una funcionalidad de cancelar, la cual redirige a la página de inicio de sesión.
 class VerifyEmailScreen extends StatefulWidget {
   Student student;
   VerifyEmailScreen({Key? key, required this.student}) : super(key: key);

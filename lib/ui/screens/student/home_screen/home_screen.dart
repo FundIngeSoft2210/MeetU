@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:meet_u/event_controller/event_controller.dart';
+import 'package:meet_u/model/entities/student.dart';
 import 'package:meet_u/ui/properties/own_icons_icons.dart';
-import 'package:meet_u/ui/screens/GroupsScreen/groups_screen.dart';
-import 'package:meet_u/ui/screens/home_screen/Widgets/home_widget.dart';
+import 'package:meet_u/ui/screens/student/chats_screen/chats_screen.dart';
+import 'package:meet_u/ui/screens/student/group_screen/groups_screen.dart';
+import '../calendar_events_screen/calendar_events_screen.dart';
+import '../student_groups_screen/student_groups_screen.dart';
+import 'Widgets/home_widget.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  Student student;
+  HomeScreen({Key? key, required this.student}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final EventController _eventController=EventController();
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -75,27 +84,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         HomeWidget(onTap: (){
 
                         }, title: "Perfil", icon: OwnIcons.child,),
+
                         HomeWidget(onTap: (){
 
                         }, title: "Amigos", icon: OwnIcons.contacts),
+
                         HomeWidget(onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const GroupScreen()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentGroupsScreen(student: widget.student)));
+                        }, title: "Mis grupos", icon: OwnIcons.users),
+
+                        HomeWidget(onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroupsScreen(student: widget.student)));
                         }, title: "Grupos", icon: OwnIcons.users),
-                        HomeWidget(onTap: (){
 
+                        HomeWidget(onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatsScreen(student: widget.student)));
                         }, title: "Chats", icon: OwnIcons.chat_empty),
-                        HomeWidget(onTap: (){
 
+                        HomeWidget(onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarEventsScreen(student: widget.student)));
                         }, title: "Calendario", icon: OwnIcons.calendar),
-                        HomeWidget(onTap: (){
 
+                        HomeWidget(onTap: (){
+                          _eventController.signOut();
                         }, title: "Cerrar sesión", icon: OwnIcons.cancel),
+
                         HomeWidget(onTap: (){
 
                         }, title: "Ayuda", icon: OwnIcons.help),
-                        HomeWidget(onTap: (){
 
-                        }, title: "Configuración", icon: OwnIcons.cog_alt),
+
                       ],
                     ),
                   )
