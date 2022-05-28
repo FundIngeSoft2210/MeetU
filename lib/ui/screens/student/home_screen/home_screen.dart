@@ -82,12 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.center,
                     child: GridView(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,childAspectRatio: 1.5,),
+                          crossAxisCount: 2,childAspectRatio: 1.6, mainAxisSpacing: 10,),
                       children: [
                         HomeWidget(onTap: ()async{
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen(student: widget.student)));
                         }, title: "Perfil", icon: OwnIcons.child,),
-
 
                         HomeWidget(onTap: (){
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentGroupsScreen(student: widget.student)));

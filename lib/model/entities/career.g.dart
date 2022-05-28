@@ -7,7 +7,7 @@ part of 'career.dart';
 // **************************************************************************
 
 Career _$CareerFromJson(Map<String, dynamic> json) => Career(
-      json['semester'] as int,
+      json['semester'] as String,
       $enumDecode(_$CareerTypeEnumMap, json['careerType']),
     );
 
@@ -17,8 +17,8 @@ Map<String, dynamic> _$CareerToJson(Career instance) => <String, dynamic>{
     };
 
 const _$CareerTypeEnumMap = {
-  CareerType.ingenieria_de_sistemas: 'ingenieria_de_sistemas',
-  CareerType.ingenieria_electronica: 'ingenieria_electronica',
-  CareerType.ingenieria_industrial: 'ingenieria_industrial',
-  CareerType.ingenieria_civil: 'ingenieria_civil',
+  CareerType.ingenieria_de_sistemas: 'Ingeniería de Sistemas',
+  CareerType.ingenieria_electronica: 'Ingeniería Electrónica',
+  CareerType.ingenieria_industrial: 'Ingeniería Industrial',
+  CareerType.ingenieria_civil: 'Ingeniería Civil',
 };

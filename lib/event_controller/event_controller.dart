@@ -133,7 +133,7 @@ class EventController {
       String name,
       String lastName,
       CareerType careerType,
-      int semester,
+      String semester,
       Gender gender,
       BuildContext context) async {
     try {

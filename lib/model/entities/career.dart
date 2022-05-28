@@ -7,7 +7,7 @@ part 'career.g.dart';
 class Career{
 
   @JsonKey(name: 'semester')
-  int semester;
+  String semester;
   @JsonKey(name: 'careerType')
   CareerType careerType;
 

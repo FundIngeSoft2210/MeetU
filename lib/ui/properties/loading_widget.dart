@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 class LoadingWidget extends StatefulWidget {
-  LoadingWidget();
+  const LoadingWidget();
   @override
   _LoadingWidget createState() => _LoadingWidget();
 }
@@ -13,7 +13,7 @@ class _LoadingWidget extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
+      child: const Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
         ),
