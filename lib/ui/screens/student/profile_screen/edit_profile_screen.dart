@@ -43,16 +43,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                                title: Text("Ruta Imagen"),
+
+                                title: const Text("Ruta Imagen"),
                                 content: TextField(
                                   autofocus: true,
                                   controller: _imageController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       hintText: "Ingresa la ruta de la imagen"),
                                 ),
                                 actions: [
                                   TextButton(
-                                    child: Text('Enter'),
+                                    child: const Text('Enter'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },

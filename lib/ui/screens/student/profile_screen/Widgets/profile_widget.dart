@@ -15,7 +15,7 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Colors.orange;
+    const color = Colors.orange;
 
     return Center(
       child: Stack(
@@ -23,7 +23,7 @@ class ProfileWidget extends StatelessWidget {
           buildImage(),
           Positioned(
             bottom: 0,
-            right: 4,
+            right: 3,
             child: buildEditIcon(color),
           ),
         ],
@@ -42,23 +42,24 @@ class ProfileWidget extends StatelessWidget {
         fit: BoxFit.cover,
         width: 128,
         height: 128,
-        child: InkWell(onTap: onClicked),
+
       ),
     ));
   }
 
   Widget buildEditIcon(Color color) => buildCircle(
-        color: Colors.white,
-        all: 3,
-        child: buildCircle(
-            color: color,
-            all: 8,
-            child: Icon(
-              isEdit ? Icons.add_a_photo : Icons.edit,
-              color: Colors.white,
-              size: 20,
-            )),
-      );
+      color: Colors.white,
+      all: 2,
+      child: buildCircle(
+        color: color,
+        all: 0,
+        child: IconButton(
+          onPressed: (onClicked),
+          icon: Icon(isEdit ? Icons.add_a_photo : Icons.edit),
+          color: Colors.white,
+          iconSize: 20,
+        ),
+      ));
 
   Widget buildCircle({
     required Widget child,
@@ -69,6 +70,8 @@ class ProfileWidget extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(all),
           color: color,
+          width: 40,
+          height: 40,
           child: child,
         ),
       );
